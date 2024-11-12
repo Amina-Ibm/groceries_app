@@ -6,14 +6,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:groceries/providers/groceryListProvider.dart';
 
 
-class groceryListScreen extends ConsumerStatefulWidget{
+class groceryListScreen extends StatefulWidget{
   groceryListScreen({super.key});
 
   @override
-  ConsumerState<groceryListScreen> createState() => _groceryListScreenState();
+  State<groceryListScreen> createState() => _groceryListScreenState();
 }
 
-class _groceryListScreenState extends ConsumerState<groceryListScreen> {
+class _groceryListScreenState extends State<groceryListScreen> {
 
 
   void onAdd() {

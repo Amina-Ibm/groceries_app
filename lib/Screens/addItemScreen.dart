@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:groceries/data/categories.dart';
 import 'package:groceries/models/category.dart';
 import 'package:groceries/models/groceryItem.dart';
@@ -17,6 +20,7 @@ class _addIemScreenState extends ConsumerState<addItemScreen>{
   final quantityController = TextEditingController();
   var _selectedCategory = categories[Categories.carbs];
   final _formkey = GlobalKey<FormState>();
+  final url = Uri.https('groceriesapp-d3ba9-default-rtdb.firebaseio.com', 'shopping-list.json');
   @override
   Widget build(BuildContext context) {
     final groceryProvider = ref.watch(groceryListProvider.notifier);
@@ -27,11 +31,12 @@ class _addIemScreenState extends ConsumerState<addItemScreen>{
       super.dispose();
     }
 
+
     void addItem(){
       if(_formkey.currentState!.validate()){
-        groceryProvider.additem(GroceryItem(id: DateTime.now.toString(),
-            name: nameController.text, quantity: int.parse(quantityController.text),
-            category: _selectedCategory!));
+        groceryProvider.postData(name: nameController.text,
+            quantity: quantityController.text,
+            categoryTitle: _selectedCategory!.title);
         Navigator.of(context).pop();
       }
     }
