@@ -5,7 +5,6 @@ import 'package:http/http.dart' as http;
 import 'package:groceries/models/groceryItem.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../models/category.dart';
 final url = Uri.https('groceriesapp-d3ba9-default-rtdb.firebaseio.com', 'shopping-list.json');
 
 
@@ -18,7 +17,7 @@ class groceryListNotifier extends AsyncNotifier<List<GroceryItem>> {
     required String quantity,
     required String categoryTitle
 }) async {
-    http.post(url,
+    await http.post(url,
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({
           'name': name,
@@ -30,6 +29,7 @@ class groceryListNotifier extends AsyncNotifier<List<GroceryItem>> {
     List<GroceryItem> fetchedList = [];
     final response = await http.get(url);
     final Map<String, dynamic> loadedData = jsonDecode(response.body);
+
     for (final item in loadedData.entries){
       final itemCategory = categories.entries.firstWhere(
               (catItem) => catItem.value.title == item.value['category']).value;
@@ -42,14 +42,11 @@ class groceryListNotifier extends AsyncNotifier<List<GroceryItem>> {
     state = AsyncData(fetchedList);
     return fetchedList;
   }
-  Future<void> additem(GroceryItem item) async{
-    var updatedList = [...state.value!, item];
-    state = AsyncData(updatedList);
-  }
   Future<void> removeItem(GroceryItem item) async {
-    var currentList = state.value;
-    currentList!.remove(item);
-    state = AsyncData(currentList);
+    final itemUrl = Uri.https('groceriesapp-d3ba9-default-rtdb.firebaseio.com',
+        'shopping-list/${item.id}.json');
+    await http.delete(itemUrl);
+    await loadData();
   }
 }
 final groceryListProvider = AsyncNotifierProvider<groceryListNotifier, List<GroceryItem>>(

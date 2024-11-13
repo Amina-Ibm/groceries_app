@@ -1,10 +1,6 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:groceries/data/categories.dart';
 import 'package:groceries/models/category.dart';
-import 'package:groceries/models/groceryItem.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:groceries/providers/groceryListProvider.dart';
 
@@ -37,6 +33,7 @@ class _addIemScreenState extends ConsumerState<addItemScreen>{
         groceryProvider.postData(name: nameController.text,
             quantity: quantityController.text,
             categoryTitle: _selectedCategory!.title);
+
         Navigator.of(context).pop();
       }
     }

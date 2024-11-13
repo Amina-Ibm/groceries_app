@@ -1,13 +1,6 @@
-
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:groceries/data/dummy_items.dart';
-import 'package:groceries/Screens/groceryListScreen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:groceries/models/groceryItem.dart';
 import 'package:groceries/providers/groceryListProvider.dart';
-import 'package:http/http.dart' as http;
 
 class groceryList extends ConsumerWidget{
   groceryList({super.key});
@@ -37,7 +30,11 @@ class groceryList extends ConsumerWidget{
               );
             },
           );
-        }, orElse: () => Center(child: CircularProgressIndicator())
+        },
+        loading: () => Center(child: CircularProgressIndicator()), // Show loading
+        error: (error, stack) =>
+            Center(child: Text('Error: $error')), // Show error
+        orElse: () => Center(child: CircularProgressIndicator()),
     );
   }
 }

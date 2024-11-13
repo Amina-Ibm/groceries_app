@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:groceries/Screens/addItemScreen.dart';
 import 'package:groceries/Widgets/groceryList.dart';
-import 'package:groceries/models/groceryItem.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:groceries/providers/groceryListProvider.dart';
 
 
 class groceryListScreen extends StatefulWidget{
